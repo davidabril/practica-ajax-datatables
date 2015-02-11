@@ -1,30 +1,6 @@
--- phpMyAdmin SQL Dump
--- version 3.4.10.1deb1
--- http://www.phpmyadmin.net
---
--- Servidor: localhost
--- Tiempo de generación: 18-01-2013 a las 12:39:35
--- Versión del servidor: 5.5.28
--- Versión de PHP: 5.3.10-1ubuntu3.4
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Base de datos: `Clinicas`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `articulos`
---
 
 CREATE TABLE IF NOT EXISTS `articulos` (
   `id_articulo` int(4) NOT NULL,
@@ -32,11 +8,7 @@ CREATE TABLE IF NOT EXISTS `articulos` (
   PRIMARY KEY (`id_articulo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `articulos`
---
-
-INSERT INTO `articulos` (`id_articulo`, `concepto`) VALUES
+INSERT INTO articulos VALUES
 (1, 'ADAMS ( ORTODONCIA)'),
 (2, 'ANALOGO'),
 (3, 'ANALOGO KLORNER'),
@@ -115,12 +87,6 @@ INSERT INTO `articulos` (`id_articulo`, `concepto`) VALUES
 (76, 'TORNILLO KLORNER'),
 (77, 'TORNILLO TITANIO');
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `articulos_materiales`
---
-
 CREATE TABLE IF NOT EXISTS `articulos_materiales` (
   `articulos_id_articulo` int(4) NOT NULL,
   `materiales_id_material` int(4) NOT NULL,
@@ -129,9 +95,6 @@ CREATE TABLE IF NOT EXISTS `articulos_materiales` (
   KEY `fk_articulos_materiales_materiales` (`materiales_id_material`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `articulos_materiales`
---
 
 INSERT INTO `articulos_materiales` (`articulos_id_articulo`, `materiales_id_material`) VALUES
 (4, 6),
@@ -229,12 +192,6 @@ INSERT INTO `articulos_materiales` (`articulos_id_articulo`, `materiales_id_mate
 (72, 14),
 (73, 2);
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `clinicas`
---
-
 CREATE TABLE IF NOT EXISTS `clinicas` (
   `id_clinica` int(4) NOT NULL,
   `nombre` varchar(100) NOT NULL,
@@ -250,9 +207,6 @@ CREATE TABLE IF NOT EXISTS `clinicas` (
   KEY `fk_clinicas_tarifas1` (`id_tarifa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `clinicas`
---
 
 INSERT INTO `clinicas` (`id_clinica`, `nombre`, `razonsocial`, `cif`, `localidad`, `provincia`, `direccion`, `cp`, `numclinica`, `id_tarifa`) VALUES
 (1, 'CENTRO IMPLANTOLOGICO BARCELONA', 'XX', 'B11111111', 'BARCELONA', 'BARCELONA', 'Avda. Gracia nº 15', '8015', '1', 1),
@@ -263,12 +217,6 @@ INSERT INTO `clinicas` (`id_clinica`, `nombre`, `razonsocial`, `cif`, `localidad
 (6, 'CENTRO DE IMPLANTOLOGÍA SANTANDER', 'XX', 'B11111116', 'SANTANDER', 'SANTANDER', 'Calle de Santander nº 20', '50008', '6', 2),
 (15, 'CENTRO DE IMPLANTOLOGÍA TARRAGONA', 'XX', 'B11111117', 'MADRID', 'TARRAGONA', 'Paseo de Tarragona nº 21', '28020', '15', 1);
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `clinica_doctor`
---
-
 CREATE TABLE IF NOT EXISTS `clinica_doctor` (
   `id_doctor` int(4) NOT NULL,
   `id_clinica` int(4) NOT NULL,
@@ -277,10 +225,6 @@ CREATE TABLE IF NOT EXISTS `clinica_doctor` (
   KEY `fk_clinica_doctor_Doctores` (`id_doctor`),
   KEY `fk_clinica_doctor_clinicas1` (`id_clinica`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `clinica_doctor`
---
 
 INSERT INTO `clinica_doctor` (`id_doctor`, `id_clinica`, `numdoctor`) VALUES
 (1, 1, 1),
@@ -300,22 +244,12 @@ INSERT INTO `clinica_doctor` (`id_doctor`, `id_clinica`, `numdoctor`) VALUES
 (12, 5, 1),
 (13, 6, 3);
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `doctores`
---
-
 CREATE TABLE IF NOT EXISTS `doctores` (
   `id_doctor` int(4) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `numcolegiado` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_doctor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `doctores`
---
 
 INSERT INTO `doctores` (`id_doctor`, `nombre`, `numcolegiado`) VALUES
 (1, 'DAVID PEREZ', '11111'),
@@ -332,12 +266,6 @@ INSERT INTO `doctores` (`id_doctor`, `nombre`, `numcolegiado`) VALUES
 (12, 'YASMINE JERARCAL', '13131313'),
 (13, 'DIEGO ZAERA', '14141414');
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `materiales`
---
-
 CREATE TABLE IF NOT EXISTS `materiales` (
   `id_material` int(4) NOT NULL,
   `nombre` varchar(100) NOT NULL,
@@ -345,10 +273,6 @@ CREATE TABLE IF NOT EXISTS `materiales` (
   `lote2` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_material`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `materiales`
---
 
 INSERT INTO `materiales` (`id_material`, `nombre`, `lote1`, `lote2`) VALUES
 (1, 'PALAPRESS VARIO 500ML LIQ/ POLVO', NULL, NULL),
@@ -369,12 +293,6 @@ INSERT INTO `materiales` (`id_material`, `nombre`, `lote1`, `lote2`) VALUES
 (17, 'RAPID REPAIR LIQUIDO/ POLVO', NULL, NULL),
 (18, 'TRIAD PROVIS. MARFIL MEDIO', NULL, NULL);
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tarifas`
---
-
 CREATE TABLE IF NOT EXISTS `tarifas` (
   `id_tarifa` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
@@ -382,29 +300,15 @@ CREATE TABLE IF NOT EXISTS `tarifas` (
   PRIMARY KEY (`id_tarifa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `tarifas`
---
-
 INSERT INTO `tarifas` (`id_tarifa`, `nombre`, `descripcion`) VALUES
 (1, 'TARIFA 1', NULL),
 (2, 'TARIFA 2', NULL);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tarifas_articulos`
---
 
 CREATE TABLE IF NOT EXISTS `tarifas_articulos` (
   `tarifa` varchar(6) DEFAULT NULL,
   `tarifas_id_tarifa` int(1) DEFAULT NULL,
   `articulos_id_articulo` int(2) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `tarifas_articulos`
---
 
 INSERT INTO `tarifas_articulos` (`tarifa`, `tarifas_id_tarifa`, `articulos_id_articulo`) VALUES
 ('13,50', 1, 1),
@@ -549,12 +453,6 @@ INSERT INTO `tarifas_articulos` (`tarifa`, `tarifas_id_tarifa`, `articulos_id_ar
 ('8,00', 2, 76),
 ('4,60', 2, 77);
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tarifa_articulos`
---
-
 CREATE TABLE IF NOT EXISTS `tarifa_articulos` (
   `tarifa` decimal(10,2) DEFAULT NULL,
   `tarifas_id_tarifa` int(4) NOT NULL,
@@ -564,49 +462,26 @@ CREATE TABLE IF NOT EXISTS `tarifa_articulos` (
   KEY `fk_tarifa_articulos_articulos` (`articulos_id_articulo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuarios`
---
-
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `usuario` char(20) NOT NULL,
   `password` char(50) NOT NULL,
   PRIMARY KEY (`usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `articulos_materiales`
---
 ALTER TABLE `articulos_materiales`
   ADD CONSTRAINT `fk_articulos_materiales_articulos` FOREIGN KEY (`articulos_id_articulo`) REFERENCES `articulos` (`id_articulo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_articulos_materiales_materiales` FOREIGN KEY (`materiales_id_material`) REFERENCES `materiales` (`id_material`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
---
--- Filtros para la tabla `clinicas`
---
+
 ALTER TABLE `clinicas`
   ADD CONSTRAINT `fk_clinicas_tarifas1` FOREIGN KEY (`id_tarifa`) REFERENCES `tarifas` (`id_tarifa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
---
--- Filtros para la tabla `clinica_doctor`
---
+
 ALTER TABLE `clinica_doctor`
   ADD CONSTRAINT `fk_clinica_doctor_clinicas1` FOREIGN KEY (`id_clinica`) REFERENCES `clinicas` (`id_clinica`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_clinica_doctor_Doctores` FOREIGN KEY (`id_doctor`) REFERENCES `doctores` (`id_doctor`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
---
--- Filtros para la tabla `tarifa_articulos`
---
 ALTER TABLE `tarifa_articulos`
   ADD CONSTRAINT `fk_tarifa_articulos_articulos` FOREIGN KEY (`articulos_id_articulo`) REFERENCES `articulos` (`id_articulo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_tarifa_articulos_tarifas` FOREIGN KEY (`tarifas_id_tarifa`) REFERENCES `tarifas` (`id_tarifa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
