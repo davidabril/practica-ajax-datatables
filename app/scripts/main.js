@@ -1,7 +1,6 @@
  'use strict';
    $(document).ready(function() {
        var miTabla = $('#miTabla').DataTable({
-            //Ocultamos columnas
             "columnDefs": [
                 {
                     "targets": [ 0, 3 ],
@@ -49,50 +48,56 @@
            }, {
                'data': 'id_clinica'
            }, {
-               'data': 'nombre_clinica'
+               'data': 'id_clinica',               
+               'render': function(data) {
+$.ajax({
+    url: 'http://localhost/practica-ajax-datatables/app/php/cargar_clinicas.php',    
+    // Si todo va bien muestra la salida (previamente formateada en php) en localidad
+    success: function(output) {
+        $("#clinicas").html(output);
+    },
+    // Si no va bien muestra el error
+    error: function (xhr, ajaxOptions, thrownError) {
+        $('#clinicas').val(aData.nombre_clinica);
+        alert(xhr.status + " "+ thrownError);
+}});
+                   return '';
+               }
            }, {
                'data': 'id_clinica',               
-               /*añadimos las clases editarbtn y borrarbtn para procesar los eventos click de los botones. No lo hacemos mediante id ya que habrá más de un
-               botón de edición o borrado*/
                'render': function(data) {
                    return '<a class="btn btn-primary editarbtn" href=http://localhost/php/editar.php?id_clinica=' + data + '>Editar</a>';
                }
            }, {
                'data': 'id_clinica',               
-               /*añadimos las clases editarbtn y borrarbtn para procesar los eventos click de los botones. No lo hacemos mediante id ya que habrá más de un
-               botón de edición o borrado*/
                'render': function(data) {
                    return '<a class="btn btn-warning borrarbtn" href=http://localhost/php/borrar.php?id_clinica=' + data + '>Borrar</a>';
                }
            }]
        });
 
-       /*Creamos la función que muestre el formulario cuando hagamos click*/
-       /*ojo, es necesario hacerlo con el método ON. Tanto por rendimiento como porque puede haber elementos (botones) que todavía no existan en el document.ready*/
        $('#miTabla').on('click', '.editarbtn', function(e) {
-           e.preventDefault();
-           $('#tabla').fadeOut(100);
-           $('#formulario').fadeIn(100);
-
-           var nRow = $(this).parents('tr')[0];
-           var aData = miTabla.row(nRow).data();
-           $('#idClinica').val(aData.idClinica);
-           $('#nombre').val(aData.nombre);
-           $('#numClinica').val(aData.numClinica);
-           $('#razonSocial').val(aData.razonSocial);
-           $('#cif').val(aData.cif);
-           $('#localidad').val(aData.localidad);
-           /*lo más cómodo para la provincia sería esto: (hemos convertido los values a mayúsculas mediante multicursor y CTRL + K + U (Sublime)*/
-           $('#provincia').val(aData.provincia);
-           /*Como hemos cambiado las option del select, más cómodo también para el envío de datos, esto que teníamos lo comentamos:*/
-           /*$('#provincia option').filter(function() {
-               return this.text.toLowerCase() === aData.provincia.toLowerCase();
-           }).attr('selected', true);*/
-           $('#id_tarifa').val(aData.idTarifa);
-           $('#direccion').val(aData.direccion);
-           $('#cp').val(aData.cp);
+          e.preventDefault();
+          $('#tabla').fadeOut(100);
+          $('#formulario').fadeIn(100);
+          var nRow = $(this).parents('tr')[0];
+          var aData = miTabla.row(nRow).data();
+          // Carga todas las clinicas en el select
+          $.ajax({
+              url: 'http://localhost/practica-ajax-datatables/app/php/cargar_clinicas.php',    
+              // Si todo va bien muestra la salida (previamente formateada en php) en localidad
+              success: function(output) {
+                  $("#clinicas").html(output);
+              },
+              // Si no va bien muestra el error
+              error: function (xhr, ajaxOptions, thrownError) {
+                  $('#clinicas').val(aData.nombre_clinica);
+                  alert(xhr.status + " "+ thrownError);
+          }});
+          $('#nombre').val(aData.nombre_doctor);
+          $('#numColegiado').val(aData.numcolegiado);
+          /*$('#clinicas').val(aData.id_clinica);*/
        });
-
 
        $('#miTabla').on('click', '.borrarbtn', function(e) {
            e.preventDefault();
@@ -100,35 +105,24 @@
            var aData = miTabla.row(nRow).data();
            var idClinica = aData.idClinica;
 
-
            $.ajax({
-               /*en principio el type para api restful sería delete pero no lo recogeríamos en $_REQUEST, así que queda como POST*/
                type: 'POST',
                dataType: 'json',
                url: 'php/borrar_clinica.php',
-               //estos son los datos que queremos actualizar, en json:
                data: {
                    id_clinica: idClinica
                },
                error: function(xhr, status, error) {
-                   //mostraríamos alguna ventana de alerta con el error
                    alert("Ha entrado en error");
                },
                success: function(data) {
-                   //obtenemos el mensaje del servidor, es un array!!!
-                   //var mensaje = (data["mensaje"]) //o data[0], en función del tipo de array!!
-                   //actualizamos datatables:
-                   /*para volver a pedir vía ajax los datos de la tabla*/
                    miTabla.fnDraw();
                },
                complete: {
-                   //si queremos hacer algo al terminar la petición ajax
                }
            });
        });
         $('#close').click(function(e) {
-
-
            $('#miTabla').fadeIn(100);
            $('#formulario').fadeOut(100);
 
@@ -209,9 +203,3 @@
        }
        cargarTarifas();*/
    });
-
-   /* En http://www.datatables.net/reference/option/ hemos encontrado la ayuda necesaria
-   para utilizar el API de datatables para el render de los botones */
-   /* Para renderizar los botones según bootstrap, la url es esta: 
-   http://getbootstrap.com/css/#buttons
-   */
