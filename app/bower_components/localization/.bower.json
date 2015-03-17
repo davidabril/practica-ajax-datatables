@@ -1,0 +1,37 @@
+{
+  "name": "localization",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Zauberstuhl/rails-assets-localization",
+  "authors": [
+    "Lukas Matt <lukas@zauberstuhl.de>"
+  ],
+  "description": "Rails localization helper for asset files",
+  "main": "localization.min.js.erb",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "rails",
+    "assets",
+    "helper",
+    "localization"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.1",
+    "commit": "0a796510c09fa18c3ee27048943d980329f4b2e2"
+  },
+  "_source": "git://github.com/Zauberstuhl/rails-assets-localization.git",
+  "_target": "~0.0.1",
+  "_originalSource": "localization",
+  "_direct": true
+}

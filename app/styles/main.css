@@ -1,9 +1,3 @@
-td .btn-primary {
-	margin-right: 3px;
-}
-body {
-	margin-top:40px;
-}
-#formulario{
-	display:none;
-}
+#formularioCrearDoctor{display:none;}
+#formularioEditarDoctor{display: none;}
+.github{margin: 1% 1% 0 0;}
